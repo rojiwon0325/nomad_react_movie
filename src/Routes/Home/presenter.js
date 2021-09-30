@@ -10,13 +10,13 @@ const Container = styled.div`
 const Presenter = ({ nowPlaying, upcoming, popular }) => (
     <Container>
         <Section title="NOW PLAYING" loading={nowPlaying.loading} error={nowPlaying.error}>
-            {nowPlaying.results.map(movie => <Poster movie={movie} />)}
+            {nowPlaying.results.map(movie => <Poster key={movie.id} movie={movie} />)}
         </Section>
         <Section title="UPCOMING" loading={upcoming.loading} error={upcoming.error}>
-            {upcoming.results.map(movie => <Poster movie={movie} />)}
+            {upcoming.results.map(movie => <Poster key={movie.id} movie={movie} />)}
         </Section>
         <Section title="POPULAR" loading={popular.loading} error={popular.error}>
-            {popular.results.map(movie => <Poster movie={movie} />)}
+            {popular.results.map(movie => <Poster key={movie.id} movie={movie} />)}
         </Section>
     </Container>
 );

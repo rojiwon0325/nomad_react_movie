@@ -25,10 +25,10 @@ const Presenter = ({ movie, tv, searchTerm, handleSubmit }) => (
             <Input placeholder="Search" defaultValue={searchTerm} />
         </Form>
         <Section title="MOVIE" loading={movie.loading} error={movie.error}>
-            {movie.results.map(movie => <Poster movie={movie} />)}
+            {movie.results.map(movie => <Poster key={movie.id} movie={movie} />)}
         </Section>
         <Section title="TV" loading={tv.loading} error={tv.error}>
-            {tv.results.map(show => <Poster tv={tv} />)}
+            {tv.results.map(show => <Poster key={show.id} tv={show} />)}
         </Section>
     </Container>);
 
