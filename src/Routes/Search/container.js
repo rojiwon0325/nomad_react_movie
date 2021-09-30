@@ -1,67 +1,42 @@
-import { createSlice } from "@reduxjs/toolkit";
+import React from "react";
+import { connect } from "react-redux";
 import { movieApi, tvApi } from "api";
-import axios from "axios";
-import React, { useEffect, useReducer } from "react";
 import Presenter from "./presenter";
+import { searchLoading, searchMovie, searchTV } from "store";
 
-const search = async (searchTerm) => {
-    const list = await axios.all([movieApi.search(searchTerm), tvApi.search(searchTerm)]);
-    return list;
-}
+const Container = ({ location, search, searchMovie, searchTV, searchLoading }) => {
+    const { term: searchTerm, movie, tv } = search;
 
-const initialState = { movieReseults: [], tvResults: [], searchTerm: "", error: null, loading: false };
-const reducers = {
-    setError(state, action) {
-        state.error = action.payload;
-        state.loading = false;
-    },
-    setLoading(state, action) {
-        state.loading = action.payload;
-    },
-    getData(state, action) {
-        const { movie, tv } = action.payload;
-        state.movieReseults = movie;
-        state.tvResults = tv;
-        state.error = null;
-        state.loading = false;
-    },
-    setTerm(state, action) {
-        state.searchTerm = action.payload;
-    }
-};
-
-const searchSlice = createSlice({
-    name: "searchSlice",
-    initialState,
-    reducers
-});
-const Container = () => {
-    const { reducer, actions: { getData, setLoading, setError } } = searchSlice;
-    const [state, dispatch] = useReducer(reducer, initialState);
-    const { movieReseults, tvResults, searchTerm, error, loading } = state;
-
-    useEffect(() => {
-        if (searchTerm !== "") {
-            dispatch(setLoading(true));
-            search(searchTerm)
-                .then(([data1, data2]) => {
-                    const { data: { results: movie } } = data1;
-                    const { data: { results: tv } } = data2;
-                    dispatch(getData({ movie, tv }))
-                })
-                .catch(e => {
-                    dispatch(setError(e.message));
-                })
-        }
-    }, [searchTerm]);
+    const handleSubmit = (e) => {
+        searchLoading({ target: "all", loading: true });
+        e.preventDefault();
+        const term = e.target[0].value;
+        movieApi.search(term)
+            .then(({ data: { results } }) => searchMovie({ term, results }))
+            .catch(e => searchMovie({ error: e.message }));
+        tvApi.search(term)
+            .then(({ data: { results } }) => searchTV({ term, results }))
+            .catch(e => searchTV({ error: e.message }));
+        return;
+    };
 
     return (<Presenter
-        movieReseults={movieReseults}
-        tvResults={tvResults}
+        movie={movie}
+        tv={tv}
         searchTerm={searchTerm}
-        error={error}
-        loading={loading}
+        handleSubmit={handleSubmit}
     />);
 };
 
-export default Container;
+const mapStateToProps = (state) => {
+    const { search } = state;
+    return { search };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        searchLoading: (data) => dispatch(searchLoading(data)),
+        searchMovie: (data) => dispatch(searchMovie(data)),
+        searchTV: (data) => dispatch(searchTV(data))
+    }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Container);

@@ -9,7 +9,7 @@ const Header = styled.header`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    z-index: 10;
+    z-index: 100;
 
     width: 100%;
     height: 50px;
