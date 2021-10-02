@@ -23,6 +23,7 @@ const Container = ({ topRated, airingToday, popular, setTopRated, setAiringToday
                 .catch(e => setPopular({ error: e.message }));
         }
     }, []);
+
     return (<Presenter
         topRated={topRated}
         airingToday={airingToday}

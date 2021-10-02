@@ -38,8 +38,8 @@ const Rating = styled.div`
     box-sizing: border-box;
 
     position: absolute;
-    top:0;
-    left: 0;
+    top: 2px;
+    left: 2px;
     text-align: center;
     line-height: 26px;
 
@@ -96,7 +96,15 @@ const Poster = ({ movie, tv }) => {
             </Link>
         );
     } else {
-        return (<Container></Container>);
+        return (
+            <Container>
+                <Image bgUrl={require("Image/noPosterSmall.png").default}>
+                    <Rating></Rating>
+                </Image>
+                <Title></Title>
+                <Year></Year>
+            </Container>
+        );
     }
 
 };

@@ -6,7 +6,6 @@ import { setMovieNowPlaying, setMovieUpcoming, setMoviePopular } from "store";
 
 const Container = ({ nowPlaying, upcoming, popular, setNowPlaying, setUpcoming, setPopular }) => {
     const { nowPlaying: getNowPlaying, upcoming: getUpcoming, popular: getPopular } = movieApi;
-
     useEffect(() => {
         if (nowPlaying.results.length === 0) {
             getNowPlaying()

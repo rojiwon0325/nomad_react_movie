@@ -12,17 +12,17 @@ const Header = styled.header`
     z-index: 100;
 
     width: 100%;
-    height: 50px;
-
+    height: ${props => (props.detail ? "47px" : "50px")};
+    overflow: hidden;
     background-color: rgba(20,20,20,0.8);
 `;
 const List = styled.ul`
     display: flex;
+    height: 100%;
 `;
 const Item = styled.li`
     width: 80px;
-    height: 50px;
-    box-sizing: border-box;
+    height: 47px;
     text-align: center;
     border-bottom: 3px solid ${props => (props.current ? "#3498db" : "transparent")};
 transition: border-bottom 0.3s ease-in-out;
@@ -39,7 +39,7 @@ const SLink = styled(Link)`
 `;
 
 export default withRouter(({ location: { pathname } }) => (
-    <Header>
+    <Header detail={pathname.includes("/movie/") || pathname.includes("/show/")}>
         <List>
             <Item current={pathname === "/"}>
                 <SLink to="/">Movies</SLink>

@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import Section from "Components/Section";
 import styled from "styled-components";
 import Poster from "Components/Poster";
+import { Helmet } from "react-helmet-async";
 
 const Container = styled.div`
     padding: 0px 20px;
@@ -21,6 +22,9 @@ const Input = styled.input`
 
 const Presenter = ({ movie, tv, searchTerm, handleSubmit }) => (
     <Container>
+        <Helmet>
+            <title>{searchTerm ? `${searchTerm} | WEBFLIX` : "WEBFLIX"}</title>
+        </Helmet>
         <Form onSubmit={handleSubmit}>
             <Input placeholder="Search" defaultValue={searchTerm} />
         </Form>
@@ -30,7 +34,8 @@ const Presenter = ({ movie, tv, searchTerm, handleSubmit }) => (
         <Section title="TV" loading={tv.loading} error={tv.error}>
             {tv.results.map(show => <Poster key={show.id} tv={show} />)}
         </Section>
-    </Container>);
+    </Container>
+);
 
 Presenter.propTypes = {
     movie: PropTypes.shape({

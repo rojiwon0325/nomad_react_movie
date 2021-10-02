@@ -15,6 +15,10 @@ const initialState = {
         term: "",
         movie: { results: [], error: null, loading: false },
         tv: { results: [], error: null, loading: false },
+    },
+    detail: {
+        movie: null,
+        tv: null
     }
 };
 const reducers = {
@@ -206,7 +210,7 @@ const reducers = {
             movie.error = error;
             movie.loading = false;
             return;
-        } else if (!(term && results)) {
+        } else if (!((term || term === "") && results)) {
             movie.error = "Invalid Data";
             movie.loading = false;
             return;
@@ -227,7 +231,7 @@ const reducers = {
             tv.error = error;
             tv.loading = false;
             return;
-        } else if (!(term && results)) {
+        } else if (!((term || term === "") && results)) {
             tv.error = "Invalid Data";
             tv.loading = false;
             return;
@@ -236,6 +240,13 @@ const reducers = {
         tv.results = results;
         tv.error = null;
         tv.loading = false;
+        return;
+    },
+    setDetail(state, action) {
+        const { detail } = state;
+        const { movie, tv } = action.payload;
+        detail.movie = movie ?? null;
+        detail.tv = tv ?? null;
         return;
     }
 };
@@ -248,5 +259,5 @@ const slice = createSlice({
 export const { setMovieLoading, setMovieNowPlaying, setMoviePopular, setMovieUpcoming } = slice.actions;
 export const { setTVLoading, setTVTopRated, setTVAiringToday, setTVPopular } = slice.actions;
 export const { searchLoading, searchMovie, searchTV } = slice.actions;
-
+export const { setDetail } = slice.actions;
 export default configureStore({ reducer: slice.reducer });

@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import Section from "Components/Section";
 import styled from "styled-components";
 import Poster from "Components/Poster";
+import { Helmet } from "react-helmet-async";
 
 const Container = styled.div`
     padding: 20px;
@@ -9,6 +10,9 @@ const Container = styled.div`
 
 const Presenter = ({ nowPlaying, upcoming, popular }) => (
     <Container>
+        <Helmet>
+            <title>Movie | WEBFLIX</title>
+        </Helmet>
         <Section title="NOW PLAYING" loading={nowPlaying.loading} error={nowPlaying.error}>
             {nowPlaying.results.map(movie => <Poster key={movie.id} movie={movie} />)}
         </Section>

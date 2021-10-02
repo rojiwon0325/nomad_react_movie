@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import Section from "Components/Section";
 import styled from "styled-components";
 import Poster from "Components/Poster";
+import { Helmet } from "react-helmet-async";
 
 const Container = styled.div`
     padding: 20px;
@@ -9,6 +10,9 @@ const Container = styled.div`
 
 const Presenter = ({ topRated, airingToday, popular }) => (
     <Container>
+        <Helmet>
+            <title>TV Show | WEBFLIX</title>
+        </Helmet>
         <Section title="TOP RATED" loading={topRated.loading} error={topRated.error}>
             {topRated.results.map(tv => <Poster key={tv.id} tv={tv} />)}
         </Section>
