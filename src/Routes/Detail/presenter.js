@@ -86,8 +86,6 @@ const Link = styled.a`
 
 const Presenter = ({ movie, tv }) => {
     if (movie || tv) {
-        console.log(movie);
-        console.log(tv);
         const { backdrop_path, poster_path, genres, overview, homepage } = movie ?? tv;
         const title = movie?.original_title ?? tv.original_name;
         const date = movie?.release_date ?? tv.first_air_date;
@@ -119,7 +117,7 @@ const Presenter = ({ movie, tv }) => {
                             <Subject>Runtime</Subject>
                             <List>
                                 {Array.isArray(runtime)
-                                    ? runtime.map((time, idx) => <Item>{`ep${idx + 1} : ${time} min`}</Item>)
+                                    ? runtime.map((time, idx) => <Item key={idx}>{`ep${idx + 1} : ${time} min`}</Item>)
                                     : runtime + " min"
                                 }
                             </List>
