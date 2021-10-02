@@ -8,6 +8,7 @@ a{
     color:inherit;
 }
 body{
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 10px;
     background-color: black;
     color:white;

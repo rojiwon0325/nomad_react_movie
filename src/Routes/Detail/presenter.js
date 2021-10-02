@@ -33,6 +33,7 @@ const Content = styled.div`
 `;
 
 const Cover = styled.img`
+    height: 100%;
     border-radius: 5px;
 `;
 

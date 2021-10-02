@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const Image = styled.div`
     background-image:url(${props => props.bgUrl});
@@ -35,13 +36,14 @@ const Rating = styled.div`
     background-color: black;
     color: white;
     font-weight: bold;
+    font-size: 12px;
     box-sizing: border-box;
 
     position: absolute;
     top: 2px;
     left: 2px;
     text-align: center;
-    line-height: 26px;
+    line-height: 24.5px;
 
     user-select: none;
 `;
@@ -68,30 +70,20 @@ const Year = styled.div`
     user-select: none;
 `;
 
-
-
 const Poster = ({ movie, tv }) => {
-    if (movie) {
+    const { id, poster_path, vote_average } = movie ?? tv;
+    const title = movie?.title ?? tv.name;
+    const date = movie?.release_date ?? tv.first_air_date;
+    const link = movie ? `/movie/${id}` : `/show/${id}`;
+    if (movie || tv) {
         return (
-            <Link to={`/movie/${movie.id}`}>
-                <Container title={movie.title}>
-                    <Image bgUrl={movie.poster_path ? `https://image.tmdb.org/t/p/w300${movie.poster_path}` : require("Image/noPosterSmall.png").default}>
-                        <Rating>{movie.vote_average}</Rating>
+            <Link to={link}>
+                <Container title={title}>
+                    <Image bgUrl={poster_path ? `https://image.tmdb.org/t/p/w300${poster_path}` : require("Image/noPosterSmall.png").default}>
+                        <Rating>{vote_average}</Rating>
                     </Image>
-                    <Title>{movie.title}</Title>
-                    <Year>{movie.release_date}</Year>
-                </Container>
-            </Link>
-        );
-    } else if (tv) {
-        return (
-            <Link to={`/show/${tv.id}`}>
-                <Container title={tv.name}>
-                    <Image bgUrl={tv.poster_path ? `https://image.tmdb.org/t/p/w300${tv.poster_path}` : require("Image/noPosterSmall.png").default}>
-                        <Rating>{tv.vote_average}</Rating>
-                    </Image>
-                    <Title>{tv.name}</Title>
-                    <Year>{tv.first_air_date}</Year>
+                    <Title>{title}</Title>
+                    <Year>{date}</Year>
                 </Container>
             </Link>
         );
@@ -107,6 +99,11 @@ const Poster = ({ movie, tv }) => {
         );
     }
 
+};
+
+Poster.propTypes = {
+    movie: PropTypes.object,
+    tv: PropTypes.object
 };
 
 export default Poster;
