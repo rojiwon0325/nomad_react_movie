@@ -163,5 +163,9 @@ const Presenter = ({ movie, tv }) => {
     }
 };
 
+Presenter.propTypes = {
+    movie: PropTypes.object,
+    tv: PropTypes.object
+};
 
 export default Presenter;
